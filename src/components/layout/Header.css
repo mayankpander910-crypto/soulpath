@@ -64,34 +64,14 @@
 
 /* Wordmark ------------------------------------------------------- */
 .wordmark {
-  display: grid;
-  justify-items: center;
-  gap: 0.15rem;
-  line-height: 1;
-  color: var(--ink);
+  display: block;
 }
 
-.wordmark__name {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.wordmark__sub {
-  font-size: 0.5625rem;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: var(--grey);
-  padding-left: 0.42em;
-}
-
-.wordmark__ornament {
-  font-size: 0.375rem;
-  letter-spacing: 0.35em;
-  color: var(--forest);
-  margin-top: 0.2rem;
-  padding-left: 0.35em;
+.wordmark__logo {
+  display: block;
+  width: 7.5rem;
+  max-height: calc(var(--header-h) - 0.5rem);
+  object-fit: contain;
 }
 
 /* Actions -------------------------------------------------------- */
@@ -179,13 +159,8 @@
     justify-self: center;
   }
 
-  .wordmark__name {
-    font-size: 1.15rem;
-    letter-spacing: 0.13em;
-  }
-
-  .wordmark__sub {
-    font-size: 0.5rem;
+  .wordmark__logo {
+    width: 5.5rem;
   }
 
   .header__actions {

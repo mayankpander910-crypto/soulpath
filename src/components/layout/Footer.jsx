@@ -51,9 +51,8 @@ export default function Footer() {
       {/* Directory */}
       <div className="footer__grid">
         <div className="footer__brand">
-          <Link to="/" className="footer__wordmark">
-            <span className="wordmark__name">SoulPath</span>
-            <span className="wordmark__sub">Holiday</span>
+          <Link to="/" className="footer__wordmark" aria-label={`${site.name} - home`}>
+            <img src="/assets/logo.svg" alt="" />
           </Link>
           <p className="footer__tagline">{site.description}</p>
           <ul className="footer__socials">

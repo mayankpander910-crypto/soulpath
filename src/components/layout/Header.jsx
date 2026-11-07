@@ -3,7 +3,7 @@ import { primaryNav, site } from '../../data/site';
 import { useScrolled } from '../../hooks/useScrolled';
 import './Header.css';
 
-/** Waldhaus-style header: hairline nav left, centred wordmark, pill actions right. */
+/** Waldhaus-style header: hairline nav left, centred logo, pill actions right. */
 export default function Header({ onOpenMenu }) {
   const scrolled = useScrolled(12);
 
@@ -19,11 +19,7 @@ export default function Header({ onOpenMenu }) {
         </nav>
 
         <Link to="/" className="wordmark" aria-label={`${site.name} — home`}>
-          <span className="wordmark__name">SoulPath</span>
-          <span className="wordmark__sub">Holiday</span>
-          <span className="wordmark__ornament" aria-hidden="true">
-            ◆◆◆◆◆
-          </span>
+          <img className="wordmark__logo" src="/assets/logo.png" alt="" />
         </Link>
 
         <div className="header__actions">

@@ -66,9 +66,15 @@
 }
 
 .footer__wordmark {
-  display: grid;
-  gap: 0.15rem;
+  display: block;
+  width: 12rem;
   margin-bottom: 1.25rem;
+}
+
+.footer__wordmark img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .footer__tagline {
