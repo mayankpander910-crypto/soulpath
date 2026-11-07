@@ -1,0 +1,54 @@
+.section-head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.5rem var(--gutter);
+  align-items: end;
+  margin-bottom: clamp(2rem, 3.4vw, 3.5rem);
+}
+
+.section-head__lead {
+  grid-column: 1 / span 6;
+}
+
+.section-head__aside {
+  grid-column: 8 / span 5;
+}
+
+.section-head__eyebrow {
+  color: var(--forest);
+  margin-bottom: 1.1rem;
+}
+
+.section-head__title {
+  text-wrap: balance;
+}
+
+.section-head__copy {
+  max-width: 34ch;
+}
+
+.section-head__action {
+  margin-top: 1.5rem;
+}
+
+/* Centred variant for interior pages */
+.section-head--center {
+  display: block;
+  text-align: center;
+  margin-inline: auto;
+  max-width: 46rem;
+}
+
+.section-head--center .section-head__copy {
+  margin: 1.25rem auto 0;
+}
+
+@media (max-width: 900px) {
+  .section-head {
+    display: block;
+  }
+
+  .section-head__aside {
+    margin-top: 1.25rem;
+  }
+}

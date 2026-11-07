@@ -1,0 +1,35 @@
+.rail {
+  position: fixed;
+  top: 50%;
+  z-index: 40;
+  color: var(--grey);
+  padding: 0.75rem 0.5rem;
+  transition: color 0.35s var(--ease-out);
+  display: none;
+}
+
+.rail:hover {
+  color: var(--forest);
+}
+
+.rail--left {
+  left: 0.35rem;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+}
+
+.rail--right {
+  right: 0.35rem;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+}
+
+.rail__text {
+  letter-spacing: 0.22em;
+}
+
+@media (min-width: 1200px) {
+  .rail {
+    display: block;
+  }
+}

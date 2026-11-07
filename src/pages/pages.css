@@ -1,0 +1,287 @@
+/* =================================================================
+   Interior page styles
+   ================================================================= */
+
+/* Filters ------------------------------------------------------- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: clamp(2rem, 3.5vw, 3rem);
+}
+
+.filter-bar__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--ink-soft);
+  transition:
+    background-color 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out),
+    color 0.35s var(--ease-out);
+}
+
+.chip:hover {
+  border-color: var(--forest);
+  color: var(--forest);
+}
+
+.chip.is-active {
+  background: var(--forest);
+  border-color: var(--forest);
+  color: #fff;
+}
+
+.filter-bar__count {
+  color: var(--muted);
+}
+
+/* Card grids ---------------------------------------------------- */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: clamp(1.5rem, 2.4vw, 2.5rem) 1.5rem;
+}
+
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+/* Empty state --------------------------------------------------- */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+  text-align: center;
+  padding: clamp(3rem, 7vw, 6rem) 1.5rem;
+  border: 1px solid var(--line);
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.empty-state .lede {
+  max-width: 44ch;
+}
+
+/* Concierge strip ---------------------------------------------- */
+.concierge {
+  background: var(--forest-deep);
+  color: #fff;
+}
+
+.concierge__inner {
+  display: grid;
+  justify-items: start;
+  gap: 1.25rem;
+  padding-block: clamp(3rem, 6vw, 5rem);
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.concierge .lede {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+/* About -------------------------------------------------------- */
+.about-story {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.about-story__lead h2 {
+  margin-top: 1.25rem;
+  max-width: 14ch;
+}
+
+.about-story__body {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 56ch;
+}
+
+.values {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.values__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: clamp(1.75rem, 3vw, 2.75rem);
+}
+
+.values__grid li {
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Closing CTA -------------------------------------------------- */
+.closing-cta {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.closing-cta .lede {
+  max-width: 46ch;
+}
+
+.closing-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+/* Testimonials page -------------------------------------------- */
+.stat-band {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.stat-band__value {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.stat-band__label {
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+/* Contact ------------------------------------------------------ */
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.contact .body-copy {
+  margin-top: 0.75rem;
+}
+
+.contact__list {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.5rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+
+.contact__list dt {
+  color: var(--forest);
+  margin-bottom: 0.5rem;
+}
+
+.contact__list dd {
+  margin: 0;
+  display: grid;
+  gap: 0.2rem;
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.contact__list a:hover {
+  color: var(--forest);
+}
+
+.contact__muted {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.contact__form {
+  display: grid;
+  gap: 1.75rem;
+  margin-top: 2rem;
+}
+
+.contact__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem;
+}
+
+.contact__form .btn {
+  justify-self: start;
+}
+
+.contact__success {
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--forest);
+  color: var(--forest);
+  font-size: 0.9375rem;
+}
+
+/* 404 ---------------------------------------------------------- */
+.not-found {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  padding-block: clamp(4rem, 10vw, 9rem);
+}
+
+.not-found .display--xl {
+  color: var(--forest);
+}
+
+.not-found .lede {
+  max-width: 42ch;
+}
+
+.not-found__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* Responsive --------------------------------------------------- */
+@media (max-width: 1000px) {
+  .about-story,
+  .contact {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .contact__row {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-band {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: left;
+  }
+
+  .filter-bar {
+    align-items: flex-start;
+  }
+}

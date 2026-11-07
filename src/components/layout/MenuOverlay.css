@@ -1,0 +1,130 @@
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--paper);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-1.5%);
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.6s var(--ease-out),
+    visibility 0.5s;
+}
+
+.menu-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.menu-overlay__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding-inline: var(--gutter);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--grey);
+}
+
+.menu-overlay__close {
+  color: var(--ink);
+  line-height: 0;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.menu-overlay__close:hover {
+  transform: rotate(90deg);
+}
+
+.menu-overlay__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: clamp(2rem, 6vw, 5rem) var(--gutter) 4rem;
+}
+
+.menu-overlay__nav {
+  display: grid;
+}
+
+.menu-overlay__link {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding-block: clamp(0.85rem, 1.7vw, 1.5rem);
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out),
+    color 0.35s var(--ease-out),
+    padding-left 0.5s var(--ease-out);
+}
+
+.menu-overlay.is-open .menu-overlay__link {
+  opacity: 1;
+  transform: none;
+}
+
+.menu-overlay__link:hover {
+  color: var(--forest);
+  padding-left: 0.75rem;
+}
+
+.menu-overlay__index {
+  color: var(--muted);
+}
+
+.menu-overlay__aside {
+  display: grid;
+  align-content: start;
+  gap: 2.5rem;
+  font-size: 0.9375rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  padding-top: 0.5rem;
+}
+
+.menu-overlay__address {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: 0.75rem;
+}
+
+.menu-overlay__address a:hover,
+.menu-overlay__socials a:hover {
+  color: var(--forest);
+}
+
+.menu-overlay__socials {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: 0.75rem;
+}
+
+.menu-overlay__note {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .menu-overlay__grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .menu-overlay__link {
+    grid-template-columns: 2rem 1fr auto;
+  }
+}
