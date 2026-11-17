@@ -1,162 +1,148 @@
-# SoulPath Holiday — Editorial UI (React + Vite)
+# SoulPath Holiday — Faith-style rebuild (v3.0)
 
-A complete front-end rebuild of **soulpathholiday.com**, restyled in the visual language of
-**waldhaus-sils.ch** — huge transitional-serif headlines on white, hairline rules, forest-green
-pill buttons, vertical edge rails and quiet, image-led cards.
+A production-ready frontend for **soulpathholiday.com** that recreates the design
+language of [faithibiza.com](https://faithibiza.com) — circular MENU / centred
+logo / circular BOOK header, the arch-shaped cinematic hero, the editorial +
+service-card section rhythm, the oversized script typography and the reference
+footer — while every piece of content, media, price and route belongs to
+SoulPath Holiday.
 
-All copy, prices, itineraries, images, creators and contact details are the **original content**
-from the live SoulPath Holiday site. Nothing was rewritten.
+**Nothing about the business was re-invented.** This frontend talks to the *same* live SoulPath
+backend (`royalblue-giraffe-182996.hostingersite.com/api`), reuses the *same* CMS content and the
+*same* media library. There is no mock data anywhere in this project.
 
----
-
-## Stack
-
-| Layer      | Choice                                   |
-| ---------- | ---------------------------------------- |
-| Framework  | React 18 + Vite 5                        |
-| Routing    | react-router-dom v6 (client-side SPA)    |
-| Styling    | Plain CSS with design tokens (no UI kit) |
-| Type       | Self-hosted Playfair Display + Inter     |
-| Icons      | Inline SVG (no icon library)             |
-
-No CSS framework is used on purpose — the layout is editorial and relies on precise type scale,
-grid and hairline rules rather than utility classes. Everything is component-scoped: each
-component owns a small `.css` file next to it, global concerns live in `src/styles`.
+See [`docs/REDESIGN-NOTES.md`](docs/REDESIGN-NOTES.md) for the token-by-token and
+section-by-section mapping to the reference, and [`docs/AUDIT.md`](docs/AUDIT.md)
+for the route/feature inventory.
 
 ---
 
-## Getting started
+## 1. Quick start (localhost)
 
 ```bash
+# 1. install
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # production build in /dist
-npm run preview  # serve the build
+
+# 2. configure (optional — defaults already point at the live API)
+cp .env.example .env.local
+
+# 3a. run the production build
+npm run build
+npm start            # → http://localhost:3000
+
+# 3b. or run in dev mode with hot reload
+npm run dev          # → http://localhost:3000
 ```
 
-> The app is a SPA. When deploying, point all routes to `index.html`
-> (a `_redirects` file for Netlify is included in `public/`).
+Requirements: **Node.js 18.18+** (tested on Node 20) and an internet connection — the site reads
+live content from the SoulPath API.
+
+### Environment variables
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_API_BASE` | `https://royalblue-giraffe-182996.hostingersite.com/api` | Existing backend base URL. |
+| `NEXT_PUBLIC_MEDIA_ORIGIN` | same host as the API | Serves `/uploads/*` images, PDFs, videos. |
+| `NEXT_PUBLIC_SITE_ORIGIN` | `https://soulpathholiday.com` | Serves the original hero video (`/videos/hero-banner-soulpath.mp4`). |
+| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | Canonical URL used in metadata, sitemap and structured data. |
+| `NEXT_PUBLIC_WHATSAPP_FALLBACK` | `919898211063` | Used only if `/site-settings` cannot be reached. |
+
+> **Hero video:** by default it streams from the existing site origin, exactly as the live site does.
+> To self-host it instead, download `https://soulpathholiday.com/videos/hero-banner-soulpath.mp4`
+> into `public/videos/` and set `NEXT_PUBLIC_SITE_ORIGIN=` (empty) — the app already resolves
+> `/videos/...` against that origin and falls back to the API-provided poster frame.
 
 ---
 
-## Project structure
+## 2. Project structure
 
 ```
-src/
-├── main.jsx                  # React entry + router
-├── App.jsx                   # Route table
-├── styles/
-│   ├── base.css              # reset, typography, layout helpers, reveal animation
-│   ├── tokens.css            # colour / type / spacing tokens (single source of truth)
-│   └── fonts.css             # @font-face for the self-hosted typefaces
-├── data/                     # ← all content lives here (edit these, not the JSX)
-│   ├── packages.js           # 21 packages incl. day-by-day itineraries
-│   ├── destinations.js       # 10 destinations
-│   ├── content.js            # influencers, testimonials, journey steps, values
-│   └── site.js               # nav, footer links, contact details, announcement
-├── components/
-│   ├── layout/               # Header, AnnouncementBar, SideRails, MenuOverlay, Footer, UtilityDock
-│   ├── ui/                   # Button, Arrow, SectionHead, PageHeader, Carousel, Field, SearchWidget
-│   └── cards/                # DestinationCard, PackageCard, InfluencerCard, QuoteCard
-├── sections/                 # homepage sections (Hero, Intro, Destinations, Influencers, …)
-├── pages/                    # one file per route + pages.css shared styles
-└── hooks/                    # useReveal, useScrolled, useBodyLock, useCarousel, useDocumentTitle
-public/assets/
-├── images/                   # all photography pulled from your live site
-├── images/influencers/       # creator portraits
-├── video/                    # optimised hero video (webm + mp4) and poster
-├── fonts/                    # woff2 subsets
-└── logo.png, app-store.svg, google-play.svg
-```
-
-### Why the data is separated
-
-Every page renders from `src/data`. To change a price, add a package, swap a testimonial or a
-phone number you edit one object — no JSX changes required. The package objects are shaped like:
-
-```js
-{
-  slug, title, country, duration, overview,
-  included: [...], notIncluded: [...],
-  itinerary: [{ day, title, items: [...] }],
-  price, priceOld, image, category, popular
-}
+soulpath-holiday/
+├─ public/
+│  ├─ soulpath-logo.png          # original brand asset (used for OG/apple icon)
+│  ├─ favicon.ico                # original favicon
+│  └─ uploads/hero-poster.jpg    # optimised hero poster (LCP + preloader + video fallback)
+├─ src/
+│  ├─ app/                       # App Router — one folder per route
+│  │  ├─ layout.js               # fonts, metadata, header, footer, preloader, JSON-LD
+│  │  ├─ page.js                 # homepage
+│  │  ├─ destinations/           # listing + [slug] detail
+│  │  ├─ packages/               # listing + [slug] detail
+│  │  ├─ offers/
+│  │  ├─ blog/                   # listing + [slug] article
+│  │  ├─ testimonials/
+│  │  ├─ travel-guide/
+│  │  ├─ travel-with-influencers/
+│  │  ├─ corporate-tours/        # + CorporateForm
+│  │  ├─ become-partner/         # + PartnerForm (franchise)
+│  │  ├─ request-proposal/       # + ProposalForm
+│  │  ├─ flights/                # search + /flights/search
+│  │  ├─ checkout/[id]/
+│  │  ├─ contact/                # + ContactForm
+│  │  ├─ support/
+│  │  ├─ login/ register/ forgot-password/
+│  │  ├─ dashboard/              # account + saved destinations
+│  │  ├─ about/ privacy/ terms/ refund/ hotels/ attractions/
+│  │  ├─ not-found.js loading.js sitemap.js robots.js
+│  ├─ components/                # Header, FullscreenMenu, Footer, Hero, SearchBar,
+│  │                             # Preloader, FloatingActions, PackageCard, Testimonials…
+│  ├─ lib/
+│  │  ├─ config.js               # env, media resolver, nav, contact fallbacks
+│  │  ├─ api.js                  # server data access + client API client + formatters
+│  │  └─ content.js              # brand/business copy carried over from the live site
+│  └─ styles/
+│     ├─ globals.css             # design system: tokens, type, buttons, header, forms
+│     ├─ home.css                # hero, search, editorial sections
+│     └─ pages.css               # listing, detail, blog, auth, legal, forms
+└─ docs/                         # AUDIT.md · REDESIGN-NOTES.md
 ```
 
 ---
 
-## Design system
+## 3. What was preserved
 
-Tokens are defined once in `src/styles/tokens.css`:
+Every page, route and integration from the live site is present and wired to the same endpoints:
 
-```css
---forest: #1e5e42;      /* primary green (pills, links, highlights)   */
---forest-deep: #0e412b; /* announcement bar, account panel           */
---ink: #101211;         /* body text                                 */
---grey: #5e6266;        /* secondary copy                            */
---line: #d4dae0;        /* hairline rules                            */
---paper-warm: #f7f6f3;  /* tinted sections                           */
-```
+- **Search** — flights (round trip / one way / multi-city, from, to, departure, return,
+  travellers, cabin class, airport autocomplete via `/flights/airports`) and holiday packages
+  (destination, style, duration, budget) → `/packages?destination=&category=&minDays=&maxDays=&price=`
+  (identical query-parameter contract).
+- **Destinations** — `/destinations`, `/destinations/[slug]`, region filters, search, highlights,
+  360° tour link, save-to-account, related packages.
+- **Packages** — `/packages` (filters + sort), `/packages/[slug]` (itinerary, inclusions/exclusions,
+  add-ons, departure dates, TCS, PDF itinerary download, quote + WhatsApp actions).
+- **Offers** — `/offers` with the original type filters (`seasonal`, `festival`, `honeymoon`,
+  `group`, `early_bird`, `last_minute`) and the original empty state (the backend currently has no
+  flagged offers).
+- **Blog** — `/blog` categories + `/blog/[slug]` article pages.
+- **Testimonials** — the six original reviews, verbatim, plus the 500+/4.9/50+ statistics.
+- **Auth** — `/login` (`check-user` → password or OTP), `/register` (email OTP → verification token →
+  profile), `/forgot-password` (OTP → reset), session in `localStorage['sp-token']`.
+- **Forms** — contact (`POST /contact`), corporate (`POST /corporate-inquiries`), franchise
+  (`POST /partner-applications`), proposal (`POST /proposal-requests`) with the original fields and
+  validation rules.
+- **Legal** — `/privacy`, `/terms`, `/refund` render the CMS policies from `/policies/:type`
+  untouched (no clause rewritten).
+- **Ask AI about SoulPath Holiday** — the original footer assistant block, with the same prefilled prompt and the same three assistants (ChatGPT, Perplexity, Gemini).
+- **Business info** — address, phones, email, GSTIN/CIN/PAN, business hours, WhatsApp number and
+  social links now come from `/site-settings` instead of being hardcoded.
+- **SEO** — per-route metadata/canonicals, OpenGraph, `TravelAgency` JSON-LD, `sitemap.xml`,
+  `robots.txt`, crawlable server-rendered content.
 
-Typography:
-
-- `--font-display` — **Playfair Display** (uppercase, tight leading) for every headline
-- `--font-sans` — **Inter** 300/400/500 for body, labels and buttons
-- `.label` — 11 px, 500 weight, `0.16em` tracking, uppercase (used everywhere for eyebrows,
-  meta rows, badges and pill buttons)
-
-Reusable primitives:
-
-| Class / component      | Purpose                                                  |
-| ---------------------- | -------------------------------------------------------- |
-| `.display--xl/lg/md/sm`| Serif headline scale                                     |
-| `.shell`               | Max-width + responsive gutter wrapper                    |
-| `.section`             | Vertical rhythm                                          |
-| `SectionHead`          | Huge title left / support copy right                     |
-| `PageHeader`           | Interior page opener with breadcrumb                     |
-| `Button`               | solid, outline, light, outline-light, ghost              |
-| `Carousel`             | Scroll-snap rail with progress line + arrow controls     |
-| `[data-reveal]`        | IntersectionObserver fade-up (respects reduced motion)   |
-
----
-
-## Routes
-
-| Route                        | Page                                             |
-| ---------------------------- | ------------------------------------------------ |
-| `/`                          | Home                                             |
-| `/destinations`              | All destinations + region filter                 |
-| `/packages`                  | All 21 packages + travel-style filter            |
-| `/packages/:slug`            | Package detail (overview, inclusions, itinerary) |
-| `/travel-with-influencers`   | Creator roster                                   |
-| `/offers`                    | Offers (empty state + concierge strip)           |
-| `/testimonials`              | Reviews + stats band                             |
-| `/about`                     | Story + core values                              |
-| `/contact`                   | Contact details + inquiry form                   |
-| `*`                          | 404                                              |
+Full inventory, API map and bug list: [`docs/AUDIT.md`](docs/AUDIT.md).
+Design system + implementation notes: [`docs/REDESIGN-NOTES.md`](docs/REDESIGN-NOTES.md).
 
 ---
 
-## What changed vs. the old site
+## 4. Notable implementation details
 
-1. **Type-led layout** — every section now opens with a serif headline and supporting copy instead
-   of bold gradient headings.
-2. **Waldhaus chrome** — hairline header with centred wordmark, pill actions, dismissible green
-   announcement bar, vertical MENU/CONTACT rails, full-screen menu overlay.
-3. **Cards** — 4:5 imagery, tiny uppercase meta, hairline footer with price + arrow link.
-4. **Rhythm** — generous whitespace, hairline dividers, alternating white / warm-white sections.
-5. **Interaction** — scroll-snap carousels, accordion steps, hover reveals, scroll fade-ins.
-6. **Accessibility** — skip link, focus-visible rings, ARIA roles on tabs/carousels/dialogs,
-   `prefers-reduced-motion` support, keyboard-dismissable overlay.
-7. **Performance** — hero video re-encoded from 34 MB → 3.2 MB (mp4) / 5.7 MB (webm) with a poster
-   fallback, lazy-loaded imagery, self-hosted fonts (no external CDN calls).
-
----
-
-## Notes / next steps
-
-- The search widget, newsletter, inquiry form and "Proceed to Booking" buttons are presentational;
-  wire them to your booking engine / CRM / newsletter provider.
-- `Download Itinerary` points at a placeholder — attach your PDFs per package.
-- Legal links currently point to the live site's privacy/terms pages; move them in-house when ready.
-- App Store / Google Play badges link to `#` until store URLs are available.
+- **Preloader** waits for the real hero poster (with an error path and a 2.8 s ceiling), shows once
+  per session and never re-appears on client-side navigation. Skipped for `prefers-reduced-motion`.
+- **Hero** uses the original `homepageHeroVideo` / `homepageHeroImage` from site settings; the poster
+  is the base layer, the video fades in only when it can play, and the video is skipped on
+  Save-Data / 2G / 3G connections.
+- **Accessibility** — skip link, semantic landmarks, labelled inputs, focus-visible rings, keyboard
+  trap + `Esc` in the menu, `aria-current` navigation, alt text on every image, reduced-motion
+  support.
+- **Performance** — server components with 120 s ISR, no client-side data waterfall for content
+  pages, lazy-loaded imagery below the fold, one 103 kB shared JS bundle, no animation library.
